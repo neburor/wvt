@@ -2,13 +2,17 @@
 #Conexion a Mysql DB
  include 'mysql_db.php';
 MysqlConnect();
+define(domain,$_SERVER['HTTP_HOST']);
+define(profile, 1);
+
 #Chat online
 class Chat
-{    
+{  
+
 	public static function Stream($a,$b) {
 		$limit_comments = (!empty($a) ? $a : 2);
 		$icon_logo = (!empty($b) ? $b : false);
-		$stream_comments=mysql_query("SELECT * FROM `chat` WHERE `id_profile` = '1' ORDER BY `id`");
+		$stream_comments=mysql_query("SELECT * FROM `chat` WHERE `domain` = '".domain."' AND `id_profile` = '".profile."' ORDER BY `id`");
 		echo '<div class="streamchat">';
 
 		if(mysql_num_rows($stream_comments)>$limit_comments){
