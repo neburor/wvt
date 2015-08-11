@@ -5,8 +5,9 @@ MysqlConnect();
 #Chat online
 class Chat
 {    
-	public static function Stream($a) {
+	public static function Stream($a,$b) {
 		$limit_comments = (!empty($a) ? $a : 2);
+		$icon_logo = (!empty($b) ? $b : false);
 		$stream_comments=mysql_query("SELECT * FROM `chat` WHERE `id_profile` = '1' ORDER BY `id`");
 		echo '<div class="streamchat">';
 
@@ -22,7 +23,9 @@ class Chat
 				echo '<p class="text-left"><i class="fa fa-user icon"></i> <span class="comment-date pull-right">'.$date.'</span><br>'.$arreglo[4].'</p>';
 			}
 			if($arreglo[1]=="reply"){
-				echo '<p class="text-right"><span class="comment-date pull-left">'.$date.'</span> <img src="img/favicon1.png" class="icon"/><br>'.$arreglo[4].'</p>';
+				echo '<p class="text-right"><span class="comment-date pull-left">'.$date.'</span> ';
+				if($icon_logo){ echo '<img src="'.$icon_logo.'" class="icon"/>'; } else { echo '<i class="fa fa-user icon"></i>'; }
+				echo '<br>'.$arreglo[4].'</p>';
 			}
 		}
 		echo '</div>';
@@ -37,7 +40,9 @@ class Chat
 				echo '<p class="text-left"><i class="fa fa-user icon"></i> <span class="comment-date pull-right">'.$date.'</span><br>'.$arreglo[4].'</p>';
 			}
 			if($arreglo[1]=="reply"){
-				echo '<p class="text-right"><span class="comment-date pull-left">'.$date.'</span> <img src="img/favicon1.png" class="icon"/><br>'.$arreglo[4].'</p>';
+				echo '<p class="text-right"><span class="comment-date pull-left">'.$date.'</span> ';
+				if($icon_logo){ echo '<img src="'.$icon_logo.'" class="icon"/>'; } else { echo '<i class="fa fa-user icon"></i>'; }
+				echo '<br>'.$arreglo[4].'</p>';
 			}
 
 		}
@@ -57,7 +62,7 @@ class Chat
               <textarea name="mensaje" placeholder="Su mensaje a la administración ..." class="form-control" required></textarea></div></div>';
 		}
 		if($form_type=='chat'){
-		echo '<div class="form-group"><div class="input-group"><input name="mensaje" placeholder="Su mensaje a la administración ..." class="form-control" required></input><div class="input-group-btn"><button type="submit" class="btn btn-default"><i class="fa fa-share"></i></button></div></div></div>';
+		echo '<div class="form-group"><div class="input-group"><input type="text" name="mensaje" placeholder="Su mensaje a la administración ..." class="form-control" required></input><div class="input-group-btn"><button type="submit" class="btn btn-default"><i class="fa fa-share"></i></button></div></div></div>';
 		}
 		if ($opc_email=='show'){ echo '<label class="col-xs-12"><input type="checkbox" name="opciones"><span>Notificarme a mi correo.</span></label>';
 		echo '<div class="collapse col-xs-12" aria-expanded="false">
