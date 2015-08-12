@@ -1,0 +1,23 @@
+/*Administracion de usuarios WEB - WVT*/
+/*Chat*/
+.wvt-chat .streamchat p {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+.wvt-chat .streamchat p img.icon {
+  height: 16px;
+  width: 16px;
+}
+.wvt-chat .streamchat p span.comment-date {
+    font-size: 10px;
+}
+.wvt-chat .streamchat p.text-left {
+  margin-right: 40px;
+}
+.wvt-chat .streamchat p.text-right {
+  margin-left: 40px;
+}
+.wvt-chat .streamchat p.text-right.last, p.text-left.last {
+  border: 1px solid #000;
+}
