@@ -29,7 +29,8 @@ class API {
     		break;
 
     	case 'post':
-    		if(mysql_query("INSERT INTO `chat` (`id`, `domain`, `type`, `id-profile`, `date`, `message`) VALUES (NULL, '".$params['domain']."', '".$params['type']."', '".$params['id-profile']."', '".date("Y-m-d H:i:s")."', '".$params['message']."' )")) {	
+    		
+    		if(mysql_query("INSERT INTO `chat` (`id`, `domain`, `type`, `id_profile`, `date`, `message`) VALUES (NULL, '".$params['domain']."', '".$params['type']."', '".$params['id-profile']."', '".date("Y-m-d H:i:s")."', '".$params['message']."')")) {	
 				$id = mysql_insert_id();
 				$sql=mysql_query("SELECT * FROM `chat` WHERE `id` = '".$id."' LIMIT 1");
 				$response = array();
@@ -38,10 +39,11 @@ class API {
 				}
 				array_push($response, "status", "correct");
 				return json_encode($response);
-				break;
 			}
 			else {
-				$response = ['status'=>'error'];
+				$response = [
+				'status'=>'error'
+				];
 				return json_encode($response);
 			}
 

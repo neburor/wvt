@@ -24,8 +24,8 @@ class Chat
 			$hidden_comments=count($stream)-$params['limit'];
 		echo '<div class="row"><button class="btn btn-link pull-right" data-toggle="collapse" data-target="#allreply-chat" aria-expanded="false"><i class="fa fa-comment"></i> Todos los mensajes <span class="badge">'.$hidden_comments.'</span></button></div>';
 		echo '<div class="collapse" id="allreply-chat">';
-
-		for ($i = 0; $i < $params['limit']; ++$i) {
+		$hidden_limit=count($stream)-$params['limit'];
+		for ($i = 0; $i < $hidden_limit; ++$i) {
         	if($stream[$i]->type=="contact"){
 				echo '<p class="text-left"><i class="fa fa-user icon"></i> <span class="comment-date pull-right">'.date("d/m/y", strtotime($stream[$i]->date)).'</span><br>'.$stream[$i]->message.'</p>';
 			}
@@ -38,7 +38,7 @@ class Chat
     	echo '</div>';
 		}
 
-		for ($i = $params['limit']; $i < count($stream); ++$i) {
+		for ($i = $hidden_limit; $i < count($stream); ++$i) {
         	if($stream[$i]->type=="contact"){
 				echo '<p class="text-left"><i class="fa fa-user icon"></i> <span class="comment-date pull-right">'.date("d/m/y", strtotime($stream[$i]->date)).'</span><br>'.$stream[$i]->message.'</p>';
 			}
@@ -59,7 +59,8 @@ class Chat
         'opc'  => true
     	), $params);
 
-		echo '<form class="form" role="form" method="POST" form-type="'.$params['type'].'">';
+		echo '<form class="form" role="form" method="POST">';
+		echo '<input type="hidden" name="type" value="'.$params['type'].'">';
 		if ($params['info']){ echo '<div class="result"><div class="col-xs-12"><p><i class="fa fa-info-circle"></i> La respuesta a su mensaje la podra consultar posteriormente ingresando de nuevo a esta pagina.</p></div></div>';} else {echo '<div class="result"></div>';}
 		if($params['type']=='contact'){
 			echo '<div class="form-group"><div class="input-group"><span class="input-group-addon"><i class="fa fa-comment"></i></span>
