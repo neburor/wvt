@@ -91,29 +91,52 @@ function verifyInputs (inputs,result){
 		if($(this).is(':disabled')){}
         else {
             if($(this).attr('name')!='options' && $(this).attr('name')!='autopass'){
-
-            	if(!checkINPUT($(this))){
-
+            	var status=checkINPUT($(this));
+            	if(!status['error']){
+                    $(this).removeClass('inp_error');
             	}
             	else {
             		$(this).addClass('inp_error');
+            		$(result).append(status['status']);
             	error++;
             	}
             }
         }
 
 	});
-	console.log(error);
 	  return error
 }
 
 function checkINPUT(input){
-	var error = 0;
+	var minLength = 4;
+	var maxLength = 32;
+	var status = new Object();
+	status['error']=0;
+
+	if($(input).attr('minlength')) { minLength = $(input).attr('minLength'); }
+	if($(input).attr('maxlength')) { maxLength = $(input).attr('maxLength'); }
+
 	if($(input).is(':required')){
-		if($(input).val()==""){error++;}
+		if($(input).val()==""){
+			status['error']++; 
+			status['status']="no data";
+		}	
+		else {
+			if($(input).val().length < minLength || $(input).val().length > maxLength){
+				status['error']++; 
+        		status['status']="incomplete";
+        	}
+        	else {
+				if($(input).attr("type")=="email"){ 
+        			if(!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/.test($(input).val())){ 
+        				status['error']++; 
+        				status['status']="incorrect";
+        			}
+        			else { status['status']="correct";
+        			}
+        		}	
+        	}
+    	}
 	}
-	if($(input).attr("type")=="email"){ 
-        if(!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/.test($(input).val())){ error++; }
-    }
-    return error
+    return status
 }
