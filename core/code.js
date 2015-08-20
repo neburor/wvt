@@ -1,46 +1,10 @@
-$(document).ready(function () {
-
-	//Activar funciones de chat
-	$('.wvt-chat form').wvt_chat();
-});
-
-
-$.fn.wvt_chat = function() {
-	$(this).each(function (){
-	//Agregar novalidate
-	$(this).attr('novalidate','novalidate');
-	//Buscar y Activar/desactivar opciones adicionales
-	form_opc($(this).find('input[name="options"]'));
-	});	
-	
-	//Cuando se envia el formulario
-	$(this).on("submit", function(e) {
-	event.preventDefault(e);
-	btncontrol=$(this).find('button[type="submit"]');
-	result=$(this).find('div.result');
-    $(result).empty();
-
-    //Verificar los inputs
-    if(!verifyInputs($(this).find('input,textarea,select'),result))
-    {
-	//Se crea el formulario y agregan elementos de ser necesario para enviar
-	var chat_messages = new FormData($(this)[0]);
-	chat_messages.append("type", $(this).attr('form-type'));	
-	
-	//Se procesa el envio
-	form_send(chat_messages,inputs,result,btncontrol);
-	}
-
-	});
-}
-
-function form_send(form,inputs,result,btncontrol){
+function form_send(form,formdata,inputs,result,btncontrol){
 	  //Envio del formulario con AJAX
         $.ajax({
             type: "POST",
             url: "processData.php",
             dataType: "json",
-            data: form,
+            data: formdata,
             cache: false,
             contentType: false,
             processData: false, 
@@ -52,18 +16,34 @@ function form_send(form,inputs,result,btncontrol){
             	beforesendAJAX(inputs,result,btncontrol);
             },
             error: function(){ 
-            	beforesendAJAX(inputs,result,btncontrol);
+            	successAJAX('correct',form,inputs,result,btncontrol);
             //	errorAJAX(result,btncontrol); 
             }
          });
 }
 
 function errorAJAX(result,btncontrol){
-    $(result).append('<div class="col-xs-12"><div class="alert alert-error alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><i class="fa fa-warning"></i> <b>Error !</b>, no se puede conectar al servidor, si persiste intente mas tarde.</div></div>'); 
+    $(result).append('<div class="col-xs-12"><div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><i class="fa fa-warning"></i><b>Error !</b>, sin conexión a internet.</div></div>'); 
     $(btncontrol).removeAttr("disabled");
-    $(btncontrol).empty().append('<i class="fa fa-warning"> Reintentar');  
+    $(btncontrol).empty().append('<i class="fa fa-warning"></i> Reintentar');  
 }
-
+function beforesendAJAX(inputs,result,btncontrol){
+    $(result).empty();
+    $(inputs).each(function(){
+        $(this).attr('readonly','readonly');
+    });
+    $(btncontrol).empty().append('<i class="fa fa-cog fa-spin"></i> Enviando');
+}
+function successAJAX(status,form,inputs,result,btncontrol){
+    if(status=="correct"){
+        $(form).hide('slow', function(){ $(form).remove(); });
+    }
+    if(status=="error"){
+    $(result).append('<div class="col-xs-12"><div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><i class="fa fa-warning"></i><b>Error !</b>, no se pudo enviar, intente mas tarde.</div></div>'); 
+    $(btncontrol).removeAttr("disabled");
+    $(btncontrol).empty().append('<i class="fa fa-warning"></i> Reintentar'); 
+    }
+}
 function form_opc (opciones) {
 	
 $(opciones).on('click', function() {
@@ -139,4 +119,14 @@ function checkINPUT(input){
     	}
 	}
     return status
+}
+function Messages(type,lng) {
+    switch (lng) {
+        case 'es' : 
+            switch (type){
+                case 'offline': return ' <b>Error !</b>, sin conexión a internet.'; break;
+            }
+        break;
+        default : break;
+    }
 }

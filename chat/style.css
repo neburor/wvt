@@ -1,0 +1,72 @@
+/*WVT Chat*/
+.wvt-chat .message-date {
+    font-size: 10px;
+}
+.wvt-chat .streamchat p {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.9);
+}
+.wvt-chat .streamchat p img.icon {
+  height: 16px;
+  width: 16px;
+}
+.wvt-chat .streamchat p.text-left {
+  margin-right: 40px;
+}
+.wvt-chat .streamchat p.text-right {
+  margin-left: 40px;
+}
+.wvt-chat .streamchat p.text-right.last, p.text-left.last {
+  border: 1px solid #000;
+}
+.wvt-chat .chatlist>div{
+    border-left: 2px #000 solid;
+    padding: 5px 0;
+    margin: 10px 0;
+}
+.wvt-chat .streamchat p.text-right.last, p.text-left.last {
+  border: 1px rgba(255,255,255,.1) solid;
+  background: rgba(255,0,0,.3);
+}
+.wvt-chat form .form-group {
+  margin-bottom: 0;
+}
+.wvt-chat .chatlist>div{
+  border-left: 4px #777 solid;
+  box-shadow: 0 1px 1px #ddd;
+}
+.wvt-chat .chatmessage {
+  cursor: pointer;
+}
+.wvt-chat .chatreply {
+  display: none;
+}
+.wvt-chat .userchat .breadcrumb {
+  margin-bottom: 0;
+  padding: 0;
+}
+.wvt-chat .chatinputgroup {
+  display: block;
+}
+.wvt-chat .chathistory {
+  display: none;
+}
+.wvt-chat .chathistory>div {
+  border-left: 2px #777 solid;
+}
+.wvt-chat .chathistory>div.text-right {
+  border-left: 0;
+  border-right: 2px #777 solid;
+}
+.wvt-chat .chathistory>div p {
+  margin: 0;
+}
+
+@media (min-width: 480px){
+}
+@media (min-width: 768px) {
+.wvt-chat .chatinputgroup {
+  display: table;
+}
+}
