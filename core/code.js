@@ -1,8 +1,14 @@
 function form_send(form,formdata,inputs,result,btncontrol){
+    formdata.append("domain", window.location.host);
+    formdata.append("url", window.location.href);
+    if (localStorage.getItem("token") === null) {} else {
+        formulario.append("token", localStorage.getItem("token")); }
+    if (localStorage.getItem("device") === null) {} else {
+        formulario.append("device", localStorage.getItem("device")); }
 	  //Envio del formulario con AJAX
         $.ajax({
             type: "POST",
-            url: "processData.php",
+            url: "../core/processDATA.php",
             dataType: "json",
             data: formdata,
             cache: false,

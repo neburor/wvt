@@ -56,4 +56,32 @@ class API {
 
 
 	}
+
+
+    public static function profiles ($method, $params = array()) {
+         $params = array_merge(array(
+        'domain' => null,
+        'token' => null,
+        'device' => null
+        ), $params);
+
+         switch ($method) {
+        case 'get':
+            $sql=mysql_query("SELECT * FROM `profiles` WHERE `domain` = '".$params['domain']."' AND (`token` = '".$params['token']."' OR `device` = '".$params['device']."') LIMIT 1");
+
+            $response = array();
+            while($i = mysql_fetch_assoc($sql)) {
+                $response[] = $i;
+                }
+                return json_encode($response);
+            break;
+
+        case 'post':
+
+            break;
+        default:
+            # code...
+            break;
+    }
+}
 }

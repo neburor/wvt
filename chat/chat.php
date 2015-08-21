@@ -1,9 +1,10 @@
 <?php
 
 include 'dbhandler.php';
+include 'profiles.php';
 
 define(domain,$_SERVER['HTTP_HOST']);
-define(profile, 1);
+define(profile, $Profile->id);
 
 #Chat online
 class Chat
